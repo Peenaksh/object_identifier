@@ -19,17 +19,18 @@ function modelLoaded() {
 
 function draw() {
     image(img,0,0,640,420);
-    fill("#04e03f")
-    text("dog",45,75)
-    noFill()
-    stroke("#852020")
-    rect(30,60,450,350)
+    if(status != ""){
+        for(i=0;i<objects.length;i++){
+            document.getElementById("status").innerHTML = "status: OBJECT DETECTED";
+            fill("#224455")
+            percent = floor(objects[i].confidence*100);
+            text(objects[i].label + " " + percent + "%",objects[i].x + 15,objects[i].y + 15)
+            noFill()
+            stroke("#030226");
+            rect(objects[i].x,objects[i].y,objects[i].width,objects[i].height);
+        }
+    }
 
-    fill("#04e03f")
-    text("cat",530,150)
-    noFill()
-    stroke("#852020")
-    rect(200,120,400,300)
 }
 function gotResult(error,results){
 if(error){
@@ -37,5 +38,6 @@ if(error){
 }
 else{
     console.log(results)
+    objects = results
 }
 }
